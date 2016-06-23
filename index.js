@@ -1,25 +1,40 @@
 angular.module("gameOfLife", [])
 
-.controller('gameGridCtrl', ['$scope', function($scope) {
+.controller('gameGridCtrl', ['$scope', ($scope) => {
     $scope.cols = 20;
     $scope.rows = 10;
     $scope.grid = [];
 
-    $scope.resizeGrid = function() {
+    $scope.resizeGrid = () => {
       $scope.grid = init($scope.rows, $scope.cols);
     };
 
-    $scope.reset = function() {
+    $scope.reset = () => {
+      // This is more for the UI than anything else.
+      setGridDefaults();
+      $scope.grid = init();
+    };
+
+
+    function setGridDefaults() {
       $scope.cols = 20;
       $scope.rows = 10;
-      $scope.grid = init($scope.rows, $scope.cols);
-    };
+    }
 
-    function init(rows, cols) {
-        var grid = [];
-        for (var h = 0; h < rows; h++) {
-            var row = [];
-            for (var w = 0; w < cols; w++) {
+
+    function getCellValue(row, col) {
+      if( row >= 0 && row < $scope.grid.length && col >= 0 && col < $scope.grid.length ) {
+          return $scope.grid[row][col];
+      }
+
+    }
+
+
+    function init(rows = 10, cols = 20) {
+        let grid = [];
+        for (let h = 0; h < rows; h++) {
+            let row = [];
+            for (let w = 0; w < cols; w++) {
                 row.push(false);
             }
             grid.push(row);
@@ -27,7 +42,8 @@ angular.module("gameOfLife", [])
         return grid;
     }
 
-    $scope.grid = init(10, 20);
+    // Init function.
+    $scope.grid = init();
 
 }])
 
