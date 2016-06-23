@@ -18,7 +18,7 @@
   <div class="col-md-offset-2 col-md-8">
     <table border="1">
       <tr ng-repeat="row in grid track by $index">
-        <td ng-repeat="col in row track by $index" style="width:1.5em;height:1.5em;border:solid 1px #ddd;" class="text-center">
+        <td ng-repeat="col in row track by $index" ng-click="switchVal($parent.$index, $index)" style="width:1.5em;height:1.5em;border:solid 1px #ddd;" class="text-center">
           <span ng-if="col"><i class="fa fa-github-alt "></i></span>
         </td>
       </tr>

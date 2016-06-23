@@ -15,6 +15,11 @@ angular.module("gameOfLife", [])
       $scope.grid = init();
     };
 
+    // Switch the value of the cell.
+    $scope.switchVal = (row, col) => {
+      $scope.grid[row][col] = !getCellValue(row, col);
+    };
+
 
     function setGridDefaults() {
       $scope.cols = 20;
