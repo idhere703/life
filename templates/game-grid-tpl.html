@@ -1,11 +1,11 @@
 <div class="container">
   <div class="header">
-    <h2><i class="fa fa-thumbs-o-up"></i> Game of Life</h2>
+    <h2><i class="fa fa-thumbs-o-up"></i>Game of Life</h2>
     <hr></hr>
   </div>
   <div>
     <button ng-click="reset()" class="btn btn-warning">Reset</button>
-    <button class="btn btn-success"></i>Start</button>
+    <button ng-click="start()" class="btn btn-success"></i>Start</button>
     <button class="btn btn-danger"></i>Stop</button>
     <label>Width:</label>
     <input ng-model="cols" min="3" ng-change="resizeGrid()" type="number" />

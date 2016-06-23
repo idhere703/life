@@ -26,6 +26,26 @@ angular.module("gameOfLife", [])
       $scope.rows = 10;
     }
 
+    $scope.start = () => {
+      nextTic();
+    };
+
+    function nextTic() {
+      // Making a new grid here since I think it'll be easier than editing the
+      // scope variable. Plus I want the UI to update all at once.
+      let newGrid = $scope.grid;
+      
+      newGrid.forEach((row, rowIndex) => {
+        row.forEach((col, colIndex) => {
+          newGrid[rowIndex][colIndex] = liveOrDie(rowIndex, colIndex) || newborn(rowIndex, colIndex);
+        });
+      });
+
+      // So the updates happen all at once.
+      $scope.grid = newGrid;
+
+    }
+
     // Will the cell live or die?
     function liveOrDie(row, col) {
       // Get the number of neighbours.
@@ -39,6 +59,17 @@ angular.module("gameOfLife", [])
       } else {
         // Dead
         return 0;
+
+      }
+    }
+
+    // Is the cell new?
+    function newborn(row, col) {
+      // Get the number of neighbours.
+      let n = getNumberOfNeighbours(row, col);
+      // If number of neighbours is three and the cell we are checking is dead.
+      // It's new.
+      if(n === 3 && !getCellValue(row, col)) {
 
       }
     }
