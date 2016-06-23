@@ -63,10 +63,8 @@ angular.module("gameOfLife", [])
     // Passed a row and col, return the value of the cell.
     function getCellValue(row, col) {
       // If the row and cols are greater than zero and not greater than the
-      // grid.
-      if( row >= 0 && row < $scope.grid.length && col >= 0 && col < $scope.grid.length ) {
-          return $scope.grid[row][col];
-      }
+      // grid. And the cell value is not false.
+      return row >= 0 && row < $scope.grid.length && col >= 0 && col < $scope.grid.length && $scope.grid[row][col]
 
     }
 
