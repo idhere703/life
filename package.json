@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/idhere703/life#readme",
   "dependencies": {
-    "browserify": "^13.0.1"
+    "browserify": "^13.0.1",
+    "wzrd": "^1.4.0"
   }
 }
