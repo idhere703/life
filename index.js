@@ -1,106 +1,126 @@
 angular.module("gameOfLife", [])
 
 .controller('gameGridCtrl', ['$scope', ($scope) => {
+
+    // Vars
     $scope.cols = 20;
     $scope.rows = 10;
     $scope.grid = [];
 
+    // Function that resizes the grid when the user changes the height or width.
     $scope.resizeGrid = () => {
-      $scope.grid = init($scope.rows, $scope.cols);
+        $scope.grid = init($scope.rows, $scope.cols);
     };
 
+    // Resets the grid to whatever the default is (set in the function right now)
     $scope.reset = () => {
-      // This is more for the UI than anything else.
-      setGridDefaults();
-      $scope.grid = init();
+        setGridDefaults();
+        $scope.grid = init();
     };
 
     // Switch the value of the cell.
     $scope.switchVal = (row, col) => {
-      $scope.grid[row][col] = !getCellValue(row, col);
+        $scope.grid[row][col] = !getCellValue(row, col);
     };
 
-
+    // This is more for the display on the page than anything else.
     function setGridDefaults() {
-      $scope.cols = 20;
-      $scope.rows = 10;
+        $scope.cols = 20;
+        $scope.rows = 10;
     }
 
+    // Main loop.
     $scope.start = () => {
-      nextTic();
+        nextTic();
     };
 
+    // Calculates each next "tic" in the game.
     function nextTic() {
-      // Making a new grid here since I think it'll be easier than editing the
-      // scope variable. Plus I want the UI to update all at once.
-      let newGrid = $scope.grid;
-      
-      newGrid.forEach((row, rowIndex) => {
-        row.forEach((col, colIndex) => {
-          newGrid[rowIndex][colIndex] = liveOrDie(rowIndex, colIndex) || newborn(rowIndex, colIndex);
-        });
-      });
 
-      // So the updates happen all at once.
-      $scope.grid = newGrid;
+        let newGrid = [];
+        // For each row and column.
+        $scope.grid.forEach((row, rowIndex) => {
+            let newRow = [];
+
+            row.forEach((col, colIndex) => {
+                // If the cell is live. Check if it gets to keep living.
+                if (getCellValue(rowIndex, colIndex)) {
+                    newRow.push(liveOrDie(rowIndex, colIndex));
+                } else {
+                    // Otherwise check if it gets to live again.
+                    newRow.push(newborn(rowIndex, colIndex));
+                }
+
+            });
+            newGrid.push(newRow);
+        });
+
+        // Assign to the grid so the updates happen all at once.
+        $scope.grid = newGrid;
 
     }
 
     // Will the cell live or die?
     function liveOrDie(row, col) {
-      // Get the number of neighbours.
-      let n = getNumberOfNeighbours(row, col);
-      // If we have two or three neighbours, we live. Otherwise we die.
-      // We also want to check that the cell is alive.
-      if(n === 2 || n === 3 && getCellValue(row, col)) {
-        // Live
-        return 1;
+        // Get the number of neighbours.
+        let n = getNumberOfNeighbours(row, col);
+        // If we have two or three neighbours, we live. Otherwise we die.
+        // We also want to check that the cell is alive.
+        if (n === 2 || n === 3 && getCellValue(row, col)) {
+            // Live
+            return true;
 
-      } else {
-        // Dead
-        return 0;
+        } else {
+            // Dead
+            return false;
 
-      }
+        }
     }
 
     // Is the cell new?
     function newborn(row, col) {
-      // Get the number of neighbours.
-      let n = getNumberOfNeighbours(row, col);
-      // If number of neighbours is three and the cell we are checking is dead.
-      // It's new.
-      if(n === 3 && !getCellValue(row, col)) {
-
-      }
+        // Get the number of neighbours.
+        let n = getNumberOfNeighbours(row, col);
+        // If number of neighbours is three and the cell we are checking is dead.
+        // It's new.
+        if (n === 3 && !getCellValue(row, col)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
     // Get the number of neighbours for the current cell.
     function getNumberOfNeighbours(row, col) {
-      let numOfNeighbours = 0;
-      // Top columns
-      numOfNeighbours += getCellValue(row-1, col-1) ? 1 : 0;
-      numOfNeighbours += getCellValue(row-1, col+0) ? 1 : 0;
-      numOfNeighbours += getCellValue(row-1, col+1) ? 1 : 0;
+        let numOfNeighbours = 0;
+        // Top columns
+        numOfNeighbours += getCellValue(row - 1, col - 1) ? 1 : 0;
+        numOfNeighbours += getCellValue(row - 1, col + 0) ? 1 : 0;
+        numOfNeighbours += getCellValue(row - 1, col + 1) ? 1 : 0;
 
-      // Bottom columns.
-      numOfNeighbours += getCellValue(row+1, col-1) ? 1 : 0;
-      numOfNeighbours += getCellValue(row+1, col+0) ? 1 : 0;
-      numOfNeighbours += getCellValue(row+1, col+1) ? 1 : 0;
+        // Bottom columns.
+        numOfNeighbours += getCellValue(row + 1, col - 1) ? 1 : 0;
+        numOfNeighbours += getCellValue(row + 1, col + 0) ? 1 : 0;
+        numOfNeighbours += getCellValue(row + 1, col + 1) ? 1 : 0;
 
-      // Middle columns
-      numOfNeighbours += getCellValue(row+0, col-1) ? 1 : 0;
-      numOfNeighbours += getCellValue(row+0, col+1) ? 1 : 0;
+        // Middle columns
+        numOfNeighbours += getCellValue(row + 0, col - 1) ? 1 : 0;
+        numOfNeighbours += getCellValue(row + 0, col + 1) ? 1 : 0;
 
-      // Return
-      return numOfNeighbours;
+        // Return
+        return numOfNeighbours;
     }
 
     // Passed a row and col, return the value of the cell.
     function getCellValue(row, col) {
-      // If the row and cols are greater than zero and not greater than the
-      // grid. And the cell value is not false.
-      return row >= 0 && row < $scope.grid.length && col >= 0 && col < $scope.grid[row].length && $scope.grid[row][col];
+        // If the row and cols are greater than, or equal to, zero and not greater than the
+        // grid. And the cell value is not false.
+        return (row >= 0 &&
+            row < $scope.grid.length &&
+            col >= 0 &&
+            col < $scope.grid[row].length &&
+            $scope.grid[row][col]);
 
     }
 
