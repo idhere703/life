@@ -1,11 +1,13 @@
 angular.module("gameOfLife", [])
 
-.controller('gameGridCtrl', ['$scope', ($scope) => {
+.controller('gameGridCtrl', ['$scope', '$interval', ($scope, $interval) => {
 
-    // Vars
+    // Vars, or should I call them "let's" now?
     $scope.cols = 20;
     $scope.rows = 10;
     $scope.grid = [];
+    // We set and destroy it.
+    let gameLoop;
 
     // Function that resizes the grid when the user changes the height or width.
     $scope.resizeGrid = () => {
@@ -31,12 +33,16 @@ angular.module("gameOfLife", [])
 
     // Main loop.
     $scope.start = () => {
-        nextTic();
+        gameLoop = $interval(nextTic, 500);
+    };
+
+    // And the stop.
+    $scope.stop = () => {
+      $interval.cancel(gameLoop);
     };
 
     // Calculates each next "tic" in the game.
     function nextTic() {
-
         let newGrid = [];
         // For each row and column.
         $scope.grid.forEach((row, rowIndex) => {
@@ -57,7 +63,6 @@ angular.module("gameOfLife", [])
 
         // Assign to the grid so the updates happen all at once.
         $scope.grid = newGrid;
-
     }
 
     // Will the cell live or die?
