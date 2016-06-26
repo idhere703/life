@@ -3,6 +3,7 @@ angular.module("gameOfLife", [])
 .controller('gameGridCtrl', ['$scope', '$interval', ($scope, $interval) => {
 
     // Vars, or should I call them "let's" now?
+    $scope.running = false;
     $scope.cols = 20;
     $scope.rows = 10;
     $scope.grid = [];
@@ -33,11 +34,13 @@ angular.module("gameOfLife", [])
 
     // Main loop.
     $scope.start = () => {
+        $scope.running = true;
         gameLoop = $interval(nextTic, 500);
     };
 
     // And the stop.
     $scope.stop = () => {
+      $scope.running = false;
       $interval.cancel(gameLoop);
     };
 

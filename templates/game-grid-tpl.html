@@ -4,9 +4,9 @@
     <hr></hr>
   </div>
   <div>
-    <button ng-click="reset()" class="btn btn-warning">Reset</button>
-    <button ng-click="start()" class="btn btn-success"></i>Start</button>
-    <button ng-click="stop()" class="btn btn-danger"></i>Stop</button>
+    <button ng-click="reset()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+    <button ng-if="!running" ng-click="start()" class="btn btn-success"><i class="fa fa-play-circle-o" aria-hidden="true"></i></button>
+    <button ng-if="running" ng-click="stop()" class="btn btn-danger"><i class="fa fa-stop-circle-o" aria-hidden="true"></i></button>
     <label>Width:</label>
     <input ng-model="cols" min="3" ng-change="resizeGrid()" type="number" />
     <label>Height:</label>
