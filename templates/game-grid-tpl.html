@@ -24,6 +24,12 @@
       </tr>
     </table>
   </div>
+
+  <div class="col-md-12">
+    <h4 ng-if="previousGrids.length">History</h4>
+    <hr></hr>
+  </div>
+
   <div class="col-md-8" style="word-wrap: break-word;">
     <span ng-click="timeTravel($index)" class="btn" style="border:solid 1px #ddd;padding-right:0.4em;padding-left:0.4em;" ng-repeat="grid in previousGrids track by $index">{{$index}}</span>
   </div>
