@@ -1,0 +1,12 @@
+span.history-item {
+  border:solid 1px #ddd;
+  padding-right:0.4em;
+  padding-left:0.4em;
+}
+
+
+td.grid-col {
+  width:1.5em;
+  height:1.5em;
+  border:solid 1px #ddd;
+}
