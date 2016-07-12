@@ -7,7 +7,7 @@ angular.module("gameOfLife", [])
     $scope.cols = 20;
     $scope.rows = 10;
     $scope.grid = [];
-    // We set and destroy it.
+    $scope.previousGrids = [];
     let gameLoop;
 
     // Function that resizes the grid when the user changes the height or width.
@@ -17,6 +17,7 @@ angular.module("gameOfLife", [])
 
     // Resets the grid to whatever the default is (set in the function right now)
     $scope.reset = () => {
+        $scope.previousGrids = [];
         setGridDefaults();
         $scope.grid = init();
     };
@@ -24,6 +25,26 @@ angular.module("gameOfLife", [])
     // Switch the value of the cell.
     $scope.switchVal = (row, col) => {
         $scope.grid[row][col] = !getCellValue(row, col);
+    };
+
+    // Allows the user to set the grid back to a specific point
+    $scope.timeTravel = (gridIndex) => {
+      // Set a variable since I don't like to update scope a billion times.
+      let previousGrids = $scope.previousGrids;
+      // If the grid's not zero.
+      if(gridIndex) {
+        // Get everything before the point we are going back to.
+        previousGrids = previousGrids.slice(0, gridIndex);
+        // Set the actual grid.
+        $scope.grid = previousGrids[previousGrids.length - 1];
+        // Now update the scope.
+        $scope.previousGrids = previousGrids;
+      } else {
+        // If the index is zero. just set the grid back to the original.
+        $scope.grid = previousGrids[gridIndex];
+        $scope.previousGrids = [];
+      }
+
     };
 
     // This is more for the display on the page than anything else.
@@ -46,6 +67,7 @@ angular.module("gameOfLife", [])
 
     // Calculates each next "tic" in the game.
     function nextTic() {
+        $scope.previousGrids.push($scope.grid);
         let newGrid = [];
         // For each row and column.
         $scope.grid.forEach((row, rowIndex) => {
