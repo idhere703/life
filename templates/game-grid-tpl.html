@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container text-center">
   <div class="header">
     <h2><i class="fa fa-thumbs-o-up"></i>Game of Life</h2>
     <hr></hr>
@@ -15,7 +15,7 @@
   <br>
 
 
-  <div class="col-md-offset-2 col-md-8">
+  <div class="col-md-offset-4 col-md-8">
     <table border="1">
       <tr ng-repeat="row in grid track by $index">
         <td ng-repeat="col in row track by $index" ng-click="switchVal($parent.$index, $index)" style="width:1.5em;height:1.5em;border:solid 1px #ddd;" class="text-center">
@@ -30,7 +30,7 @@
     <hr></hr>
   </div>
 
-  <div class="col-md-8" style="word-wrap: break-word;">
+  <div class="col-md-offset-2 col-md-8" style="word-wrap: break-word;">
     <span ng-click="timeTravel($index)" class="btn" style="border:solid 1px #ddd;padding-right:0.4em;padding-left:0.4em;" ng-repeat="grid in previousGrids track by $index">{{$index}}</span>
   </div>
 </div>
