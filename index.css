@@ -10,3 +10,7 @@ td.grid-col {
   height:1.5em;
   border:solid 1px #ddd;
 }
+
+div.history-container {
+  word-wrap: break-word;
+}
