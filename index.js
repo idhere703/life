@@ -8,7 +8,14 @@ angular.module("gameOfLife", [])
     $scope.rows = 10;
     $scope.grid = [];
     $scope.previousGrids = [];
+    $scope.speed = 500;
+    $scope.speedOptions = [{speed: 100, name: "10/1"}, {speed: 500, name: "5/1"}, {speed: 1000,name: "1"}, {speed: 5000, name:"5"}];
     let gameLoop;
+
+    // Function that (when passed an ineger) changes the speed of the game.
+    $scope.changeSpeed = (speed) => {
+      $scope.speed = speed;
+    };
 
     // Function that resizes the grid when the user changes the height or width.
     $scope.resizeGrid = () => {
@@ -56,7 +63,7 @@ angular.module("gameOfLife", [])
     // Main loop.
     $scope.start = () => {
         $scope.running = true;
-        gameLoop = $interval(nextTic, 500);
+        gameLoop = $interval(nextTic, $scope.speed);
     };
 
     // And the stop.
