@@ -9,7 +9,7 @@ angular.module("gameOfLife", [])
     $scope.grid = [];
     $scope.previousGrids = [];
     $scope.speed = 500;
-    $scope.speedOptions = [{speed: 500, name: "5/1"}, {speed: 100, name: "10/1"}, {speed: 5000, name:"5"}, {speed: 1000,name: "1"}];
+    $scope.speedOptions = [{speed: 100, name: "10/1"}, {speed: 500, name: "5/1"}, {speed: 1000,name: "1"}, {speed: 5000, name:"5"}];
     let gameLoop;
 
     // Function that resizes the grid when the user changes the height or width.
