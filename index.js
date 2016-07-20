@@ -4,12 +4,21 @@ angular.module("gameOfLife", [])
 
     // Vars, or should I call them "let's" now?
     $scope.running = false;
+    // The column and row height.
     $scope.cols = 20;
     $scope.rows = 10;
+
+    // The grid table.
     $scope.grid = [];
+
+    // Grid history, used for the history feature.
     $scope.previousGrids = [];
+
+    // Game speed and the speed options.
     $scope.speed = 500;
     $scope.speedOptions = [{speed: 100, name: "10/1"}, {speed: 500, name: "5/1"}, {speed: 1000,name: "1"}, {speed: 5000, name:"5"}];
+
+    // the main game loop var.
     let gameLoop;
 
     // Function that resizes the grid when the user changes the height or width.
@@ -55,7 +64,7 @@ angular.module("gameOfLife", [])
         $scope.rows = 10;
     }
 
-    // Main loop.
+    // Main loop start.
     $scope.start = () => {
         $scope.running = true;
         gameLoop = $interval(nextTic, $scope.speed);
@@ -69,7 +78,9 @@ angular.module("gameOfLife", [])
 
     // Calculates each next "tic" in the game.
     function nextTic() {
+        // Push history to the previous grids.
         $scope.previousGrids.push($scope.grid);
+        // Create a new grid.
         let newGrid = [];
         // For each row and column.
         $scope.grid.forEach((row, rowIndex) => {
